@@ -1,7 +1,8 @@
 TEMPLATE = app
-CONFIG += console c++11
+CONFIG += console c++11 link_pkgconfig
 CONFIG -= app_bundle
 CONFIG -= qt
+PKGCONFIG += sdl2
 
 SOURCES += \
         engine/graphics/screen.cpp \
