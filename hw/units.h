@@ -5,5 +5,6 @@
 
 typedef uint8_t Byte;
 typedef uint16_t Word;
+typedef uint16_t Pointer;
 
 #endif

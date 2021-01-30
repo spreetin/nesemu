@@ -4,3 +4,8 @@ PPU::PPU()
 {
 
 }
+
+Byte PPU::getReg(Byte addr)
+{
+
+}

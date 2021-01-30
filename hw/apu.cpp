@@ -4,3 +4,8 @@ APU::APU()
 {
 
 }
+
+Byte APU::getReg(Byte addr)
+{
+
+}
