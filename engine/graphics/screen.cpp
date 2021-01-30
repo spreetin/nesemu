@@ -9,6 +9,9 @@ Screen::Screen(int xSize, int ySize)
 
 Screen::~Screen()
 {
+    if (renderer){
+        SDL_DestroyRenderer(renderer);
+    }
     if (window){
         SDL_DestroyWindow(window);
     }
