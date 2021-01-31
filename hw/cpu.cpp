@@ -5,6 +5,17 @@ CPU::CPU()
 
 }
 
+void CPU::cycle()
+{
+    Byte code = getMemory(PC);
+    PC++;
+}
+
+void CPU::i00()
+{
+
+}
+
 void CPU::ADC(Pointer &addr, AddressingModes mode)
 {
 
@@ -37,7 +48,16 @@ void CPU::BEQ(Pointer &addr, AddressingModes mode)
 
 void CPU::BIT(Pointer &addr, AddressingModes mode)
 {
-
+    Byte data = getMemory(addr);
+    setZeroFlag(data & A);
+    data = data >> 6;
+    setOverflowFlag(1 & data);
+    setNegativeFlag(2 & data);
+    if (mode == ZeroPage){
+        counter += 3;
+    } else if (mode == Absolute){
+        counter += 4;
+    }
 }
 
 void CPU::BMI(Pointer &addr, AddressingModes mode)
@@ -72,22 +92,26 @@ void CPU::BVS(Pointer &addr, AddressingModes mode)
 
 void CPU::CLC(Pointer &addr, AddressingModes mode)
 {
-
+    setCarryFlag(false);
+    counter += 2;
 }
 
 void CPU::CLD(Pointer &addr, AddressingModes mode)
 {
-
+    setDecimalModeFlag(false);
+    counter += 2;
 }
 
 void CPU::CLI(Pointer &addr, AddressingModes mode)
 {
-
+    setInterruptFlag(false);
+    counter += 2;
 }
 
 void CPU::CLV(Pointer &addr, AddressingModes mode)
 {
-
+    setOverflowFlag(false);
+    counter += 2;
 }
 
 void CPU::CMP(Pointer &addr, AddressingModes mode)
@@ -281,6 +305,16 @@ void CPU::TXS(Pointer &addr, AddressingModes mode)
 }
 
 void CPU::TYA(Pointer &addr, AddressingModes mode)
+{
+
+}
+
+Byte CPU::getMemory(Pointer &addr, bool *crossedBorder)
+{
+
+}
+
+void CPU::setMemory(Pointer &addr, Byte &data)
 {
 
 }
