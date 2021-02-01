@@ -6,6 +6,8 @@ PKGCONFIG += sdl2
 
 SOURCES += \
         cartridge/cartridge.cpp \
+        cartridge/cartridgeloader.cpp \
+        cartridge/mappers/mapper000.cpp \
         engine/graphics/screen.cpp \
         engine/sound/sound.cpp \
         hw/apu.cpp \
@@ -16,6 +18,8 @@ SOURCES += \
 
 HEADERS += \
     cartridge/cartridge.h \
+    cartridge/cartridgeloader.h \
+    cartridge/mappers/mapper000.h \
     engine/graphics/screen.h \
     engine/sound/sound.h \
     hw/apu.h \

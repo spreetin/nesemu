@@ -8,7 +8,7 @@ class Cartridge
 public:
     Cartridge();
 
-    Byte getMemory(Pointer addr);
+    virtual Byte getMemory(Pointer addr);
 };
 
 #endif // CARTRIDGE_H
