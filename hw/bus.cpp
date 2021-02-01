@@ -2,7 +2,7 @@
 
 Bus::Bus()
 {
-    cpu = new CPU();
+    cpu = new CPU(this);
     ppu = new PPU();
     apu = new APU();
 }
@@ -26,5 +26,12 @@ Byte Bus::getMemory(Pointer addr)
         return 0x00FF;
     } else { // Cartridge
         return  cartridge->getMemory(addr);
+    }
+}
+
+void Bus::setMemory(Pointer addr, Byte value)
+{
+    if (addr < 0x2000){
+        RAM.at(addr & 0x07ff) = value;
     }
 }

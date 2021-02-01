@@ -15,6 +15,7 @@ public:
     ~Bus();
 
     Byte getMemory(Pointer addr);
+    void setMemory(Pointer addr, Byte value);
 
 private:
     std::array<Byte, 0x800> RAM;
