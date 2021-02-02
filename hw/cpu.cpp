@@ -49,18 +49,18 @@ CPU::CPU(Bus *bus)
         2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 7, 4, 4, 7, 7, // 1
         6, 6, 0, 8, 3, 3, 5, 5, 4, 2, 2, 2, 4, 4, 6, 6, // 2
         2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 7, 4, 4, 7, 7, // 3
-        6, 6, 0, 8, 3, 3, 5, 5, 3, 2, 2, 0, 3, 4, 6, 6, // 4
-        2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 0, 0, 4, 7, 7, // 5
-        6, 6, 0, 8, 3, 3, 5, 5, 4, 2, 2, 0, 5, 4, 6, 6, // 6
-        2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 0, 0, 4, 7, 7, // 7
-        0, 6, 2, 6, 3, 3, 3, 3, 2, 2, 2, 0, 4, 4, 4, 4, // 8
-        2, 6, 0, 6, 4, 4, 4, 4, 2, 5, 2, 0, 0, 5, 0, 5, // 9
-        2, 6, 2, 6, 3, 3, 3, 3, 2, 2, 2, 0, 4, 4, 4, 4, // A
-        2, 5, 0, 5, 4, 4, 4, 4, 2, 4, 2, 0, 4, 4, 4, 4, // B
-        2, 6, 2, 8, 3, 3, 5, 5, 2, 2, 2, 0, 4, 4, 6, 6, // C
-        2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 0, 0, 4, 7, 7, // D
-        2, 6, 2, 8, 3, 3, 5, 5, 2, 2, 2, 0, 4, 4, 6, 6, // E
-        2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 0, 0, 4, 7, 7  // F
+        6, 6, 0, 8, 3, 3, 5, 5, 3, 2, 2, 2, 3, 4, 6, 6, // 4
+        2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 7, 4, 4, 7, 7, // 5
+        6, 6, 0, 8, 3, 3, 5, 5, 4, 2, 2, 2, 5, 4, 6, 6, // 6
+        2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 4, 4, 4, 7, 7, // 7
+        2, 6, 2, 6, 3, 3, 3, 3, 2, 2, 2, 7, 4, 4, 4, 4, // 8
+        2, 6, 0, 6, 4, 4, 4, 4, 2, 5, 2, 2, 5, 5, 5, 5, // 9
+        2, 6, 2, 6, 3, 3, 3, 3, 2, 2, 2, 5, 4, 4, 4, 4, // A
+        2, 5, 0, 5, 4, 4, 4, 4, 2, 4, 2, 4, 4, 4, 4, 4, // B
+        2, 6, 2, 8, 3, 3, 5, 5, 2, 2, 2, 2, 4, 4, 6, 6, // C
+        2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 7, 4, 4, 7, 7, // D
+        2, 6, 2, 8, 3, 3, 5, 5, 2, 2, 2, 2, 4, 4, 6, 6, // E
+        2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 4, 4, 4, 7, 7  // F
     };
 }
 
@@ -106,421 +106,6 @@ void CPU::NMI()
     counter += 8;
 }
 
-void CPU::i03()
-{
-
-}
-
-void CPU::i07()
-{
-
-}
-
-void CPU::i0B()
-{
-
-}
-
-void CPU::i0F()
-{
-
-}
-
-void CPU::i13()
-{
-
-}
-
-void CPU::i17()
-{
-
-}
-
-void CPU::i1B()
-{
-
-}
-
-void CPU::i1C()
-{
-
-}
-
-void CPU::i1F()
-{
-
-}
-
-void CPU::i23()
-{
-
-}
-
-void CPU::i27()
-{
-
-}
-
-void CPU::i2B()
-{
-
-}
-
-void CPU::i2F()
-{
-
-}
-
-void CPU::i33()
-{
-
-}
-
-void CPU::i34()
-{
-
-}
-
-void CPU::i37()
-{
-
-}
-
-void CPU::i3B()
-{
-
-}
-
-void CPU::i3C()
-{
-
-}
-
-void CPU::i3F()
-{
-
-}
-
-void CPU::i43()
-{
-
-}
-
-void CPU::i44()
-{
-
-}
-
-void CPU::i47()
-{
-
-}
-
-void CPU::i4B()
-{
-
-}
-
-void CPU::i4F()
-{
-
-}
-
-void CPU::i53()
-{
-
-}
-
-void CPU::i54()
-{
-
-}
-
-void CPU::i57()
-{
-
-}
-
-void CPU::i5B()
-{
-
-}
-
-void CPU::i5C()
-{
-
-}
-
-void CPU::i5F()
-{
-
-}
-
-void CPU::i63()
-{
-
-}
-
-void CPU::i64()
-{
-
-}
-
-void CPU::i67()
-{
-
-}
-
-void CPU::i6B()
-{
-
-}
-
-void CPU::i6F()
-{
-
-}
-
-void CPU::i73()
-{
-
-}
-
-void CPU::i74()
-{
-
-}
-
-void CPU::i77()
-{
-
-}
-
-void CPU::i7B()
-{
-
-}
-
-void CPU::i7C()
-{
-
-}
-
-void CPU::i7F()
-{
-
-}
-
-void CPU::i80()
-{
-
-}
-
-void CPU::i82()
-{
-
-}
-
-void CPU::i83()
-{
-
-}
-
-void CPU::i87()
-{
-
-}
-
-void CPU::i89()
-{
-
-}
-
-void CPU::i8B()
-{
-
-}
-
-void CPU::i93()
-{
-
-}
-
-void CPU::i97()
-{
-
-}
-
-void CPU::i9B()
-{
-
-}
-
-void CPU::i9C()
-{
-
-}
-
-void CPU::i9E()
-{
-
-}
-
-void CPU::i9F()
-{
-
-}
-
-void CPU::iA3()
-{
-
-}
-
-void CPU::iA7()
-{
-
-}
-
-void CPU::iAB()
-{
-
-}
-
-void CPU::iAF()
-{
-
-}
-
-void CPU::iB3()
-{
-
-}
-
-void CPU::iB7()
-{
-
-}
-
-void CPU::iBB()
-{
-
-}
-
-void CPU::iBF()
-{
-
-}
-
-void CPU::iC2()
-{
-
-}
-
-void CPU::iC3()
-{
-
-}
-
-void CPU::iC7()
-{
-
-}
-
-void CPU::iCB()
-{
-
-}
-
-void CPU::iCF()
-{
-
-}
-
-void CPU::iD3()
-{
-
-}
-
-void CPU::iD4()
-{
-
-}
-
-void CPU::iD7()
-{
-
-}
-
-void CPU::iDB()
-{
-
-}
-
-void CPU::iDC()
-{
-
-}
-
-void CPU::iDF()
-{
-
-}
-
-void CPU::iE2()
-{
-
-}
-
-void CPU::iE3()
-{
-
-}
-
-void CPU::iE7()
-{
-
-}
-
-void CPU::iEB()
-{
-
-}
-
-void CPU::iEF()
-{
-
-}
-
-void CPU::iF3()
-{
-
-}
-
-void CPU::iF4()
-{
-
-}
-
-void CPU::iF7()
-{
-
-}
-
-void CPU::iFB()
-{
-
-}
-
-void CPU::iFC()
-{
-
-}
-
-void CPU::iFF()
-{
-
-}
-
 Byte CPU::IMM()
 {
     return getPC();
@@ -534,23 +119,46 @@ Byte CPU::ZPI()
 
 Byte CPU::ZPX()
 {
-    Byte addr = getPC();
-    return getMemory((addr + X) & 0x00FF);
+    return getMemory(ZPX_Addr());
 }
 
 Byte CPU::ZPY()
 {
-    Byte addr = getPC();
-    return getMemory((addr + Y) & 0x00FF);
+    return getMemory(ZPY_Addr());
+}
+
+Pointer CPU::ZPX_Addr()
+{
+    return (getPC() + X) & 0x00FF;
+}
+
+Pointer CPU::ZPY_Addr()
+{
+    return (getPC() + Y) & 0x00FF;
 }
 
 Word CPU::ABS()
 {
-    Word addr = getPC() + ((Word)getPC() << 8);
+    Word addr = (Word)getPC() + ((Word)getPC() << 8);
     return getMemory(addr);
 }
 
 Word CPU::ABSX()
+{
+    return getMemory(ABSX_Addr());
+}
+
+Word CPU::ABSY()
+{
+    return getMemory(ABSY_Addr());
+}
+
+Pointer CPU::ABS_Addr()
+{
+    return (Word)getPC() + ((Word)getPC() << 8);
+}
+
+Pointer CPU::ABSX_Addr()
 {
     Word low = getPC();
     Word high = getPC();
@@ -559,10 +167,10 @@ Word CPU::ABSX()
         opcounter++;
         counter++;
     }
-    return getMemory(addr);
+    return addr;
 }
 
-Word CPU::ABSY()
+Pointer CPU::ABSY_Addr()
 {
     Word low = getPC();
     Word high = getPC();
@@ -571,7 +179,7 @@ Word CPU::ABSY()
         opcounter++;
         counter++;
     }
-    return getMemory(addr);
+    return addr;
 }
 
 Pointer CPU::IND()
@@ -588,14 +196,24 @@ Pointer CPU::IND()
 
 Word CPU::INDX()
 {
+    return getMemory(INDX_Addr());
+}
+
+Word CPU::INDY()
+{
+    return getMemory(INDY_Addr());
+}
+
+Pointer CPU::INDX_Addr()
+{
     Word temp = getPC();
     Word low = getMemory((temp + (Word)X) & 0x00FF);
     Word high = getMemory((temp + (Word)X +1) & 0x00FF);
 
-    return getMemory((high << 8) | low);
+    return ((high << 8) | low);
 }
 
-Word CPU::INDY()
+Pointer CPU::INDY_Addr()
 {
     Word temp = getPC();
     Word low = getMemory((temp + (Word)X) & 0x00FF);
@@ -606,17 +224,7 @@ Word CPU::INDY()
         opcounter++;
         counter++;
     }
-    return getMemory(addr);
-}
-
-Pointer CPU::INDX_Addr()
-{
-
-}
-
-Pointer CPU::INDY_Addr()
-{
-
+    return addr;
 }
 
 void CPU::ADC(Word data)
@@ -972,6 +580,8 @@ void CPU::ROR(Pointer addr, bool useA)
             A &= ~0x80;
         }
         setCarryFlag(cb);
+        setZeroFlag(~A);
+        setNegativeFlag(A & 0x80);
     } else {
         Byte data = getMemory(addr);
         bool cb = data & 0x01;
@@ -982,6 +592,8 @@ void CPU::ROR(Pointer addr, bool useA)
             data &= ~0x80;
         }
         setCarryFlag(cb);
+        setZeroFlag(~data);
+        setNegativeFlag(data & 0x80);
         setMemory(addr, data);
     }
 }
@@ -1084,7 +696,7 @@ void CPU::TYA()
 
 void CPU::KILL()
 {
-
+    reset();
 }
 
 void CPU::SAX(Pointer addr)
@@ -1092,7 +704,118 @@ void CPU::SAX(Pointer addr)
     setMemory(addr, A & X);
 }
 
-Byte CPU::getMemory(Pointer addr, bool *crossedBorder)
+void CPU::DCP(Pointer addr)
+{
+    DEC(addr);
+    CMP(getMemory(addr));
+}
+
+void CPU::ISC(Pointer addr)
+{
+    INC(addr);
+    SBC(getMemory(addr));
+}
+
+void CPU::RLA(Pointer addr)
+{
+    ROL(addr);
+    AND(getMemory(addr));
+}
+
+void CPU::RRA(Pointer addr)
+{
+    ROR(addr);
+    ADC(getMemory(addr));
+}
+
+void CPU::SLO(Pointer addr)
+{
+    ASL(addr);
+    ORA(getMemory(addr));
+}
+
+void CPU::SRE(Pointer addr)
+{
+    LSR(addr);
+    EOR(getMemory(addr));
+}
+
+void CPU::ARR(Byte data)
+{
+    Byte temp = A & data;
+    if (decimalModeFlag()){
+        Byte A_high = temp >> 4;
+        Byte A_low = temp & 15;
+        setNegativeFlag(carryFlag());
+        setZeroFlag(!(A = (temp >> 1) | (carryFlag() << 7)));
+        setOverflowFlag((temp ^ A) & 64);
+        if (A_low + (A_low & 1) > 5){
+            A = (A & 0xF0) | ((A + 6) & 0xF);
+        }
+        Byte c = A_high + (A_high & 1);
+        setCarryFlag(c);
+        if (c > 5){
+            A = (A + 0x60) & 0xFF;
+        }
+    } else {
+        temp >>= 1;
+        temp &= 0x8F & (carryFlag() << 7);
+        setZeroFlag(~temp);
+        setNegativeFlag(temp & 0x80);
+        setCarryFlag(temp & 0x40);
+        setOverflowFlag(((temp >> 4) ^ (temp >> 5)) & 0x01);
+    }
+    A = temp;
+}
+
+void CPU::XAA(Byte data)
+{
+    A = (A | getMemory(0xEE)) & X & data;
+}
+
+void CPU::SHA(Pointer addr)
+{
+    setMemory(addr, A & X & (Byte)((addr >> 8) + 1));
+}
+
+void CPU::SHX(Pointer addr)
+{
+    setMemory(addr, X & (Byte)((addr >> 8) + 1));
+}
+
+void CPU::SHY(Pointer addr)
+{
+    setMemory(addr, Y & (Byte)((addr >> 8) + 1));
+}
+
+void CPU::TAS(Pointer addr)
+{
+    S = A & X;
+    setMemory(addr, S & ((addr >> 8)+1));
+}
+
+void CPU::LAX(Byte data)
+{
+    X = data;
+    A = X;
+    setZeroFlag(~A);
+    setNegativeFlag(A & 0x80);
+}
+
+void CPU::LAS(Byte data)
+{
+    S = data & S;
+    X = S;
+    A = S;
+}
+
+void CPU::AXS(Byte data)
+{
+    X = (A & X) - data;
+    // Carry flag
+}
+
+Byte CPU::getMemory(Pointer addr)
 {
     Byte data = bus->getMemory(addr);
     return data;

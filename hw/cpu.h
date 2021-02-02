@@ -19,267 +19,272 @@ public:
     inline void i00() {BRK();}
     inline void i01() {ORA(INDX());}
     inline void i02() {KILL();}
-    void i03();
+    inline void i03() {SLO(INDX_Addr());}
     inline void i04() {NOP(); getPC();}
     inline void i05() {ORA(ZPI());}
     inline void i06() {ASL(getPC());}
-    void i07();
+    inline void i07() {SLO(getPC());}
     inline void i08() {PHP();}
     inline void i09() {ORA(IMM());}
-    inline void i0A() {ASL(0x0000, true);}
-    void i0B();
+    inline void i0A() {ASL(0x0, true);}
+    inline void i0B() {AND(IMM()); setCarryFlag(negativeFlag());}
     inline void i0C() {NOP(); getPC(); getPC();}
     inline void i0D() {ORA(ABS());}
-    inline void i0E() {ASL((Word)getPC()+((Word)getPC() << 8));}
-    void i0F();
+    inline void i0E() {ASL(ABS_Addr());}
+    inline void i0F() {SLO(ABS_Addr());}
     inline void i10() {BPL();}
     inline void i11() {ORA(INDY());}
     inline void i12() {KILL();}
-    void i13();
+    inline void i13() {SLO(INDY_Addr());}
     inline void i14() {NOP(); getPC();}
     inline void i15() {ORA(ZPX());}
-    inline void i16() {ASL(getPC()+X);}
-    void i17();
+    inline void i16() {ASL(ZPX_Addr());}
+    inline void i17() {SLO(ZPX_Addr());}
     inline void i18() {CLC();}
     inline void i19() {ORA(ABSY());}
     inline void i1A() {NOP();}
-    void i1B();
-    void i1C();
+    inline void i1B() {SLO(ABSY_Addr());}
+    inline void i1C() {getMemory(ABSX_Addr());}
     inline void i1D() {ORA(ABSX());}
-    inline void i1E() {ASL((Word)getPC()+((Word)getPC() << 8)+X);}
-    void i1F();
+    inline void i1E() {ASL(ABSX_Addr());}
+    inline void i1F() {SLO(ABSX_Addr());}
     inline void i20() {JSR(ABS());}
     inline void i21() {AND(INDX());}
     inline void i22() {KILL();}
-    void i23();
+    inline void i23() {RLA(INDX_Addr());}
     inline void i24() {BIT(ZPI());}
     inline void i25() {AND(ZPI());}
     inline void i26() {ROL(ZPI());}
-    void i27();
+    inline void i27() {RLA(getPC());}
     inline void i28() {PLP();}
     inline void i29() {AND(IMM());}
-    inline void i2A() {ROL(0x00, true);}
-    void i2B();
+    inline void i2A() {ROL(0x0, true);}
+    inline void i2B() {AND(IMM()); setCarryFlag(negativeFlag());}
     inline void i2C() {BIT(ABS());}
     inline void i2D() {AND(ABS());}
     inline void i2E() {ROL(ABS());}
-    void i2F();
+    inline void i2F() {RLA(ABS_Addr());}
     inline void i30() {BMI();}
     inline void i31() {AND(INDY());}
     inline void i32() {KILL();}
-    void i33();
-    void i34();
+    inline void i33() {RLA(INDY_Addr());}
+    inline void i34() {NOP(); getPC();}
     inline void i35() {AND(ZPX());}
     inline void i36() {ROL(ZPX());}
-    void i37();
+    inline void i37() {RLA(ZPX_Addr());}
     inline void i38() {SEC();}
     inline void i39() {AND(ABSY());}
     inline void i3A() {NOP();}
-    void i3B();
-    void i3C();
+    inline void i3B() {RLA(ABSY_Addr());}
+    inline void i3C() {getMemory(ABSX_Addr());}
     inline void i3D() {AND(ABSX());}
     inline void i3E() {ROL(ABSX());}
-    void i3F();
+    inline void i3F() {RLA(ABSX_Addr());}
     inline void i40() {RTI();}
     inline void i41() {EOR(INDX());}
     inline void i42() {KILL();}
-    void i43();
-    void i44();
+    inline void i43() {SRE(INDX_Addr());}
+    inline void i44() {NOP(); getPC();}
     inline void i45() {EOR(ZPI());}
     inline void i46() {LSR(ZPI());}
-    void i47();
+    inline void i47() {SRE(getPC());}
     inline void i48() {PHA();}
     inline void i49() {EOR(IMM());}
-    inline void i4A() {LSR(0x00, true);}
-    void i4B();
-    inline void i4C() {JMP((Word)getPC()+((Word)getPC() << 8));}
+    inline void i4A() {LSR(0x0, true);}
+    inline void i4B() {AND(IMM()); LSR(0x0, true);}
+    inline void i4C() {JMP(ABS_Addr());}
     inline void i4D() {EOR(ABS());}
     inline void i4E() {LSR(ABS());}
-    void i4F();
+    inline void i4F() {SRE(ABS_Addr());}
     inline void i50() {BVC();}
     inline void i51() {EOR(INDY());}
     inline void i52() {KILL();}
-    void i53();
-    void i54();
+    inline void i53() {SRE(INDY_Addr());}
+    inline void i54() {NOP(); getPC();}
     inline void i55() {EOR(ZPX());}
     inline void i56() {LSR(ZPX());}
-    void i57();
+    inline void i57() {SRE(ZPX_Addr());}
     inline void i58() {CLI();}
     inline void i59() {EOR(ABSY());}
     inline void i5A() {NOP();}
-    void i5B();
-    void i5C();
+    inline void i5B() {SRE(ABSY_Addr());}
+    inline void i5C() {getMemory(ABSX_Addr());}
     inline void i5D() {EOR(ABSX());}
     inline void i5E() {LSR(ABSX());}
-    void i5F();
+    inline void i5F() {SRE(ABSX_Addr());}
     inline void i60() {RTS();}
     inline void i61() {ADC(INDX());}
     inline void i62() {KILL();}
-    void i63();
-    void i64();
+    inline void i63() {RRA(INDX_Addr());}
+    inline void i64() {NOP(); getPC();}
     inline void i65() {ADC(ZPI());}
     inline void i66() {ROR(ZPI());}
-    void i67();
+    inline void i67() {RRA(getPC());}
     inline void i68() {PLA();}
     inline void i69() {ADC(IMM());}
-    inline void i6A() {ROR(0x00, true);}
-    void i6B();
+    inline void i6A() {ROR(0x0, true);}
+    inline void i6B() {ARR(IMM());}
     inline void i6C() {JMP(IND());}
     inline void i6D() {ADC(ABS());}
     inline void i6E() {ROR(ABS());}
-    void i6F();
+    inline void i6F() {RRA(ABS_Addr());}
     inline void i70() {BVS();}
     inline void i71() {ADC(INDY());}
     inline void i72() {KILL();}
-    void i73();
-    void i74();
+    inline void i73() {RRA(INDY_Addr());}
+    inline void i74() {NOP(); getPC();}
     inline void i75() {ADC(ZPX());}
     inline void i76() {ROR(ZPX());}
-    void i77();
+    inline void i77() {RRA(ZPX_Addr());}
     inline void i78() {SEI();}
     inline void i79() {ADC(ABSY());}
     inline void i7A() {NOP();}
-    void i7B();
-    void i7C();
+    inline void i7B() {RRA(ABSY_Addr());}
+    inline void i7C() {getMemory(ABSX_Addr());}
     inline void i7D() {ADC(ABSX());}
     inline void i7E() {ROR(ABSX());}
-    void i7F();
-    void i80();
+    inline void i7F() {RRA(ABSX_Addr());}
+    inline void i80() {IMM(); NOP();}
     inline void i81() {STA(INDX_Addr());}
-    void i82();
-    void i83();
+    inline void i82() {IMM(); NOP();}
+    inline void i83() {SAX(INDX_Addr());}
     inline void i84() {STY(getPC());}
     inline void i85() {STA(getPC());}
     inline void i86() {STX(getPC());}
-    void i87();
+    inline void i87() {SAX(getPC());}
     inline void i88() {DEY();}
-    void i89();
+    inline void i89() {IMM(); NOP();}
     inline void i8A() {TXA();}
-    void i8B();
-    inline void i8C() {STY((Word)getPC()+((Word)getPC() << 8));}
-    inline void i8D() {STA((Word)getPC()+((Word)getPC() << 8));}
-    inline void i8E() {STX((Word)getPC()+((Word)getPC() << 8));}
-    inline void i8F() {SAX((Word)getPC()+((Word)getPC() << 8));}
+    inline void i8B() {XAA(IMM());}
+    inline void i8C() {STY(ABS_Addr());}
+    inline void i8D() {STA(ABS_Addr());}
+    inline void i8E() {STX(ABS_Addr());}
+    inline void i8F() {SAX(ABS_Addr());}
     inline void i90() {BCC();}
     inline void i91() {STA(INDY_Addr());}
     inline void i92() {KILL();}
-    void i93();
-    inline void i94() {STY(getPC()+X);}
-    inline void i95() {STA(getPC()+X);}
-    inline void i96() {STX(getPC()+Y);}
-    void i97();
+    inline void i93() {SHA(INDY_Addr());}
+    inline void i94() {STY(ZPX_Addr());}
+    inline void i95() {STA(ZPX_Addr());}
+    inline void i96() {STX(ZPY_Addr());}
+    inline void i97() {SAX(ZPY_Addr());}
     inline void i98() {TYA();}
-    inline void i99() {STA((Word)getPC()+((Word)getPC() << 8)+Y);}
+    inline void i99() {STA(ABSY_Addr());}
     inline void i9A() {TXS();}
-    void i9B();
-    void i9C();
-    inline void i9D() {STA((Word)getPC()+((Word)getPC() << 8)+X);}
-    void i9E();
-    void i9F();
+    inline void i9B() {TAS(ABSY_Addr());}
+    inline void i9C() {SHY(ABSX_Addr());}
+    inline void i9D() {STA(ABSX_Addr());}
+    inline void i9E() {SHX(ABSY_Addr());}
+    inline void i9F() {SHA(ABSY_Addr());}
     inline void iA0() {LDY(IMM());}
     inline void iA1() {LDA(INDX());}
     inline void iA2() {LDX(IMM());}
-    void iA3();
+    inline void iA3() {LDA(INDX()); TAX();}
     inline void iA4() {LDY(ZPI());}
     inline void iA5() {LDA(ZPI());}
     inline void iA6() {LDX(ZPI());}
-    void iA7();
+    inline void iA7() {LDA(ZPI()); TAX();}
     inline void iA8() {TAY();}
     inline void iA9() {LDA(IMM());}
     inline void iAA() {TAX();}
-    void iAB();
+    inline void iAB() {LAX(IMM());}
     inline void iAC() {LDY(ABS());}
     inline void iAD() {LDA(ABS());}
     inline void iAE() {LDX(ABS());}
-    void iAF();
+    inline void iAF() {LDA(ABS()); TAX();}
     inline void iB0() {BCS();}
     inline void iB1() {LDA(INDY());}
     inline void iB2() {KILL();}
-    void iB3();
+    inline void iB3() {LDA(INDY()); TAX();}
     inline void iB4() {LDY(ZPX());}
     inline void iB5() {LDA(ZPX());}
     inline void iB6() {LDX(ZPX());}
-    void iB7();
+    inline void iB7() {LDA(ZPY()); TAX();}
     inline void iB8() {CLV();}
     inline void iB9() {LDA(ABSY());}
     inline void iBA() {TSX();}
-    void iBB();
+    inline void iBB() {LAS(ABSY());}
     inline void iBC() {LDY(ABSX());}
     inline void iBD() {LDA(ABSX());}
     inline void iBE() {LDX(ABSY());}
-    void iBF();
+    inline void iBF() {LDA(ABSY()); TAX();}
     inline void iC0() {CPY(IMM());}
     inline void iC1() {CMP(INDX());}
-    void iC2();
-    void iC3();
+    inline void iC2() {IMM(); NOP();}
+    inline void iC3() {DCP(INDX_Addr());}
     inline void iC4() {CPY(ZPI());}
     inline void iC5() {CMP(ZPI());}
     inline void iC6() {DEC((Pointer)getPC());}
-    void iC7();
+    inline void iC7() {DCP(getPC());}
     inline void iC8() {INY();}
     inline void iC9() {CMP(IMM());}
     inline void iCA() {DEX();}
-    void iCB();
+    inline void iCB() {AXS(IMM());}
     inline void iCC() {CPY(ABS());}
     inline void iCD() {CMP(ABS());}
-    inline void iCE() {DEC((Word)getPC()+((Word)getPC() << 8));}
-    void iCF();
+    inline void iCE() {DEC(ABS_Addr());}
+    inline void iCF() {DCP(ABS_Addr());}
     inline void iD0() {BNE();}
     inline void iD1() {CMP(INDY());}
     inline void iD2() {KILL();}
-    void iD3();
-    void iD4();
+    inline void iD3() {DCP(INDY_Addr());}
+    inline void iD4() {NOP(); getPC();}
     inline void iD5() {CMP(ZPX());}
-    inline void iD6() {DEC((Pointer)getPC()+X);}
-    void iD7();
+    inline void iD6() {DEC(ZPX_Addr());}
+    inline void iD7() {DCP(ZPX_Addr());}
     inline void iD8() {CLD();}
     inline void iD9() {CMP(ABSY());}
     inline void iDA() {NOP();}
-    void iDB();
-    void iDC();
+    inline void iDB() {DCP(ABSY_Addr());}
+    inline void iDC() {getMemory(ABSX_Addr());}
     inline void iDD() {CMP(ABSX());}
-    inline void iDE() {DEC((Word)getPC()+((Word)getPC() << 8)+X);}
-    void iDF();
+    inline void iDE() {DEC(ABSX_Addr());}
+    inline void iDF() {DCP(ABSX_Addr());}
     inline void iE0() {CPX(IMM());}
     inline void iE1() {SBC(INDX());};
-    void iE2();
-    void iE3();
+    inline void iE2() {IMM(); NOP();}
+    inline void iE3() {ISC(ZPX_Addr());}
     inline void iE4() {CPX(ZPI());}
     inline void iE5() {SBC(ZPI());}
     inline void iE6() {INC(ZPI());}
-    void iE7();
+    inline void iE7() {ISC(getPC());}
     inline void iE8() {INX();}
     inline void iE9() {SBC(IMM());}
     inline void iEA() {NOP();}
-    void iEB();
+    inline void iEB() {SBC(IMM());}
     inline void iEC() {CPX(ABS());}
     inline void iED() {SBC(ABS());}
     inline void iEE() {INC(ABS());}
-    void iEF();
+    inline void iEF() {ISC(ABS_Addr());}
     inline void iF0() {BEQ();}
     inline void iF1() {SBC(INDY());}
     inline void iF2() {KILL();}
-    void iF3();
-    void iF4();
+    inline void iF3() {ISC(INDY_Addr());}
+    inline void iF4() {NOP(); getPC();}
     inline void iF5() {SBC(ZPX());}
     inline void iF6() {INC(ZPX());}
-    void iF7();
+    inline void iF7() {ISC(ZPX_Addr());}
     inline void iF8() {SED();}
     inline void iF9() {SBC(ABSY());}
     inline void iFA() {NOP();}
-    void iFB();
-    void iFC();
+    inline void iFB() {ISC(ABSY_Addr());}
+    inline void iFC() {getMemory(ABSX_Addr());}
     inline void iFD() {SBC(ABSX());}
     inline void iFE() {INC(ABSX());}
-    void iFF();
+    inline void iFF() {ISC(ABSX_Addr());}
 
     Byte IMM();
     Byte ZPI();
     Byte ZPX();
     Byte ZPY();
+    Pointer ZPX_Addr();
+    Pointer ZPY_Addr();
     Word ABS();
     Word ABSX();
     Word ABSY();
+    Pointer ABS_Addr();
+    Pointer ABSX_Addr();
+    Pointer ABSY_Addr();
     Pointer IND();
     Word INDX();
     Word INDY();
@@ -346,9 +351,24 @@ public:
     // Illegal opcodes
     void KILL();
     void SAX(Pointer addr);
+    void DCP(Pointer addr);
+    void ISC(Pointer addr);
+    void RLA(Pointer addr);
+    void RRA(Pointer addr);
+    void SLO(Pointer addr);
+    void SRE(Pointer addr);
+    void ARR(Byte data);
+    void XAA(Byte data);
+    void SHA(Pointer addr);
+    void SHX(Pointer addr);
+    void SHY(Pointer addr);
+    void TAS(Pointer addr);
+    void LAX(Byte data);
+    void LAS(Byte data);
+    void AXS(Byte data);
 
 private:
-    Byte getMemory(Pointer addr, bool * crossedBorder = nullptr);
+    Byte getMemory(Pointer addr);
     void setMemory(Pointer addr, Byte data);
 
     bool negativeFlag() {return P & 128;}
