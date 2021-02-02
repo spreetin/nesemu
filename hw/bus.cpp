@@ -25,7 +25,7 @@ Byte Bus::getMemory(Pointer addr)
     } else if (addr < 0x4020){
         return 0x00FF;
     } else { // Cartridge
-        return  cartridge->getMemory(addr);
+        return  cartridge->readCPU(addr);
     }
 }
 

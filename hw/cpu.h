@@ -30,10 +30,10 @@ public:
     void i0B();
     inline void i0C() {NOP(); getPC(); getPC();}
     inline void i0D() {ORA(ABS());}
-    inline void i0E() {ASL((Word)getPC()+((Word)getPC() >> 8));}
+    inline void i0E() {ASL((Word)getPC()+((Word)getPC() << 8));}
     void i0F();
     inline void i10() {BPL();}
-    void i11(); // ORA, INDY
+    inline void i11() {ORA(INDY());}
     inline void i12() {KILL();}
     void i13();
     inline void i14() {NOP(); getPC();}
@@ -41,12 +41,12 @@ public:
     inline void i16() {ASL(getPC()+X);}
     void i17();
     inline void i18() {CLC();}
-    void i19(); // ORA, ABSY
+    inline void i19() {ORA(ABSY());}
     inline void i1A() {NOP();}
     void i1B();
     void i1C();
-    void i1D(); // ORA, OBSX
-    inline void i1E() {ASL((Word)getPC()+((Word)getPC() >> 8)+X);}
+    inline void i1D() {ORA(ABSX());}
+    inline void i1E() {ASL((Word)getPC()+((Word)getPC() << 8)+X);}
     void i1F();
     inline void i20() {JSR(ABS());}
     inline void i21() {AND(INDX());}
@@ -65,7 +65,7 @@ public:
     inline void i2E() {ROL(ABS());}
     void i2F();
     inline void i30() {BMI();}
-    void i31(); // AND, INDY
+    inline void i31() {AND(INDY());}
     inline void i32() {KILL();}
     void i33();
     void i34();
@@ -73,11 +73,11 @@ public:
     inline void i36() {ROL(ZPX());}
     void i37();
     inline void i38() {SEC();}
-    void i39(); // AND, ABSY
+    inline void i39() {AND(ABSY());}
     inline void i3A() {NOP();}
     void i3B();
     void i3C();
-    void i3D(); // AND, ABSX
+    inline void i3D() {AND(ABSX());}
     inline void i3E() {ROL(ABSX());}
     void i3F();
     inline void i40() {RTI();}
@@ -92,7 +92,7 @@ public:
     inline void i49() {EOR(IMM());}
     inline void i4A() {LSR(0x00, true);}
     void i4B();
-    inline void i4C() {JMP((Word)getPC()+((Word)getPC() >> 8));}
+    inline void i4C() {JMP((Word)getPC()+((Word)getPC() << 8));}
     inline void i4D() {EOR(ABS());}
     inline void i4E() {LSR(ABS());}
     void i4F();
@@ -105,11 +105,11 @@ public:
     inline void i56() {LSR(ZPX());}
     void i57();
     inline void i58() {CLI();}
-    void i59(); // EOR, ABSY
+    inline void i59() {EOR(ABSY());}
     inline void i5A() {NOP();}
     void i5B();
     void i5C();
-    void i5D(); // EOR, ABSX
+    inline void i5D() {EOR(ABSX());}
     inline void i5E() {LSR(ABSX());}
     void i5F();
     inline void i60() {RTS();}
@@ -129,7 +129,7 @@ public:
     inline void i6E() {ROR(ABS());}
     void i6F();
     inline void i70() {BVS();}
-    void i71(); // ADC, INDY
+    inline void i71() {ADC(INDY());}
     inline void i72() {KILL();}
     void i73();
     void i74();
@@ -137,11 +137,11 @@ public:
     inline void i76() {ROR(ZPX());}
     void i77();
     inline void i78() {SEI();}
-    void i79(); // ADC, ABSY
+    inline void i79() {ADC(ABSY());}
     inline void i7A() {NOP();}
     void i7B();
     void i7C();
-    void i7D(); // ADC, ABSX
+    inline void i7D() {ADC(ABSX());}
     inline void i7E() {ROR(ABSX());}
     void i7F();
     void i80();
@@ -156,10 +156,10 @@ public:
     void i89();
     inline void i8A() {TXA();}
     void i8B();
-    inline void i8C() {STY((Word)getPC()+((Word)getPC() >> 8));}
-    inline void i8D() {STA((Word)getPC()+((Word)getPC() >> 8));}
-    inline void i8E() {STX((Word)getPC()+((Word)getPC() >> 8));}
-    inline void i8F() {SAX((Word)getPC()+((Word)getPC() >> 8));}
+    inline void i8C() {STY((Word)getPC()+((Word)getPC() << 8));}
+    inline void i8D() {STA((Word)getPC()+((Word)getPC() << 8));}
+    inline void i8E() {STX((Word)getPC()+((Word)getPC() << 8));}
+    inline void i8F() {SAX((Word)getPC()+((Word)getPC() << 8));}
     inline void i90() {BCC();}
     inline void i91() {STA(INDY_Addr());}
     inline void i92() {KILL();}
@@ -169,11 +169,11 @@ public:
     inline void i96() {STX(getPC()+Y);}
     void i97();
     inline void i98() {TYA();}
-    inline void i99() {STA((Word)getPC()+((Word)getPC() >> 8)+Y);}
+    inline void i99() {STA((Word)getPC()+((Word)getPC() << 8)+Y);}
     inline void i9A() {TXS();}
     void i9B();
     void i9C();
-    inline void i9D() {STA((Word)getPC()+((Word)getPC() >> 8)+X);}
+    inline void i9D() {STA((Word)getPC()+((Word)getPC() << 8)+X);}
     void i9E();
     void i9F();
     inline void iA0() {LDY(IMM());}
@@ -193,20 +193,20 @@ public:
     inline void iAE() {LDX(ABS());}
     void iAF();
     inline void iB0() {BCS();}
-    void iB1(); // LDA; INDY
+    inline void iB1() {LDA(INDY());}
     inline void iB2() {KILL();}
     void iB3();
     inline void iB4() {LDY(ZPX());}
     inline void iB5() {LDA(ZPX());}
     inline void iB6() {LDX(ZPX());}
     void iB7();
-    void iB8(); // CLV, IMP
-    void iB9(); // LDA, ABSY
+    inline void iB8() {CLV();}
+    inline void iB9() {LDA(ABSY());}
     inline void iBA() {TSX();}
     void iBB();
-    void iBC(); // LDY, ABSX
-    void iBD(); // LDA, ABSX
-    void iBE(); // LDX, ABSY
+    inline void iBC() {LDY(ABSX());}
+    inline void iBD() {LDA(ABSX());}
+    inline void iBE() {LDX(ABSY());}
     void iBF();
     inline void iC0() {CPY(IMM());}
     inline void iC1() {CMP(INDX());}
@@ -222,10 +222,10 @@ public:
     void iCB();
     inline void iCC() {CPY(ABS());}
     inline void iCD() {CMP(ABS());}
-    inline void iCE() {DEC((Word)getPC()+((Word)getPC() >> 8));}
+    inline void iCE() {DEC((Word)getPC()+((Word)getPC() << 8));}
     void iCF();
     inline void iD0() {BNE();}
-    void iD1(); // CMP, INDY
+    inline void iD1() {CMP(INDY());}
     inline void iD2() {KILL();}
     void iD3();
     void iD4();
@@ -238,7 +238,7 @@ public:
     void iDB();
     void iDC();
     inline void iDD() {CMP(ABSX());}
-    inline void iDE() {DEC((Word)getPC()+((Word)getPC() >> 8)+X);}
+    inline void iDE() {DEC((Word)getPC()+((Word)getPC() << 8)+X);}
     void iDF();
     inline void iE0() {CPX(IMM());}
     inline void iE1() {SBC(INDX());};
@@ -257,7 +257,7 @@ public:
     inline void iEE() {INC(ABS());}
     void iEF();
     inline void iF0() {BEQ();}
-    void iF1(); // SBX, INDY
+    inline void iF1() {SBC(INDY());}
     inline void iF2() {KILL();}
     void iF3();
     void iF4();
@@ -265,11 +265,11 @@ public:
     inline void iF6() {INC(ZPX());}
     void iF7();
     inline void iF8() {SED();}
-    void iF9(); // SBC, ABSY
+    inline void iF9() {SBC(ABSY());}
     inline void iFA() {NOP();}
     void iFB();
     void iFC();
-    void iFD(); // SBC; ABSX
+    inline void iFD() {SBC(ABSX());}
     inline void iFE() {INC(ABSX());}
     void iFF();
 

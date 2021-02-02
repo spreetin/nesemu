@@ -45,22 +45,22 @@ CPU::CPU(Bus *bus)
     };
     cycleCount = {
       //0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F
-        7, 6, 0, 0, 3, 3, 5, 0, 3, 2, 2, 0, 4, 4, 6, 0, // 0
-        2, 5, 0, 0, 4, 4, 6, 0, 2, 4, 2, 0, 0, 4, 7, 0, // 1
-        6, 6, 0, 0, 3, 3, 5, 0, 4, 2, 2, 0, 4, 4, 6, 0, // 2
-        2, 5, 0, 0, 0, 4, 6, 0, 2, 4, 2, 0, 0, 4, 7, 0, // 3
-        6, 6, 0, 0, 0, 3, 5, 0, 3, 2, 2, 0, 3, 4, 6, 0, // 4
-        2, 5, 0, 0, 0, 4, 6, 0, 2, 4, 2, 0, 0, 4, 7, 0, // 5
-        6, 6, 0, 0, 0, 3, 5, 0, 4, 2, 2, 0, 5, 4, 6, 0, // 6
-        2, 5, 0, 0, 0, 4, 6, 0, 2, 4, 2, 0, 0, 4, 7, 0, // 7
-        0, 6, 0, 0, 3, 3, 3, 0, 2, 0, 2, 0, 4, 4, 4, 4, // 8
-        2, 6, 0, 0, 4, 4, 4, 0, 2, 5, 2, 0, 0, 5, 0, 0, // 9
-        2, 6, 2, 0, 3, 3, 3, 0, 2, 2, 2, 0, 4, 4, 4, 0, // A
-        2, 5, 0, 0, 4, 4, 4, 0, 0, 4, 2, 0, 4, 4, 4, 0, // B
-        2, 6, 0, 0, 3, 3, 5, 0, 2, 2, 2, 0, 4, 4, 6, 0, // C
-        2, 5, 0, 0, 0, 4, 6, 0, 2, 4, 2, 0, 0, 4, 7, 0, // D
-        2, 6, 0, 0, 3, 3, 5, 0, 2, 2, 2, 0, 4, 4, 6, 0, // E
-        2, 5, 0, 0, 0, 4, 6, 0, 2, 4, 2, 0, 0, 4, 7, 0  // F
+        7, 6, 0, 8, 3, 3, 5, 5, 3, 2, 2, 2, 4, 4, 6, 6, // 0
+        2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 7, 4, 4, 7, 7, // 1
+        6, 6, 0, 8, 3, 3, 5, 5, 4, 2, 2, 2, 4, 4, 6, 6, // 2
+        2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 7, 4, 4, 7, 7, // 3
+        6, 6, 0, 8, 3, 3, 5, 5, 3, 2, 2, 0, 3, 4, 6, 6, // 4
+        2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 0, 0, 4, 7, 7, // 5
+        6, 6, 0, 8, 3, 3, 5, 5, 4, 2, 2, 0, 5, 4, 6, 6, // 6
+        2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 0, 0, 4, 7, 7, // 7
+        0, 6, 2, 6, 3, 3, 3, 3, 2, 2, 2, 0, 4, 4, 4, 4, // 8
+        2, 6, 0, 6, 4, 4, 4, 4, 2, 5, 2, 0, 0, 5, 0, 5, // 9
+        2, 6, 2, 6, 3, 3, 3, 3, 2, 2, 2, 0, 4, 4, 4, 4, // A
+        2, 5, 0, 5, 4, 4, 4, 4, 2, 4, 2, 0, 4, 4, 4, 4, // B
+        2, 6, 2, 8, 3, 3, 5, 5, 2, 2, 2, 0, 4, 4, 6, 6, // C
+        2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 0, 0, 4, 7, 7, // D
+        2, 6, 2, 8, 3, 3, 5, 5, 2, 2, 2, 0, 4, 4, 6, 6, // E
+        2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 0, 0, 4, 7, 7  // F
     };
 }
 
@@ -126,11 +126,6 @@ void CPU::i0F()
 
 }
 
-void CPU::i11()
-{
-
-}
-
 void CPU::i13()
 {
 
@@ -141,22 +136,12 @@ void CPU::i17()
 
 }
 
-void CPU::i19()
-{
-
-}
-
 void CPU::i1B()
 {
 
 }
 
 void CPU::i1C()
-{
-
-}
-
-void CPU::i1D()
 {
 
 }
@@ -186,11 +171,6 @@ void CPU::i2F()
 
 }
 
-void CPU::i31()
-{
-
-}
-
 void CPU::i33()
 {
 
@@ -206,22 +186,12 @@ void CPU::i37()
 
 }
 
-void CPU::i39()
-{
-
-}
-
 void CPU::i3B()
 {
 
 }
 
 void CPU::i3C()
-{
-
-}
-
-void CPU::i3D()
 {
 
 }
@@ -271,22 +241,12 @@ void CPU::i57()
 
 }
 
-void CPU::i59()
-{
-
-}
-
 void CPU::i5B()
 {
 
 }
 
 void CPU::i5C()
-{
-
-}
-
-void CPU::i5D()
 {
 
 }
@@ -321,11 +281,6 @@ void CPU::i6F()
 
 }
 
-void CPU::i71()
-{
-
-}
-
 void CPU::i73()
 {
 
@@ -341,22 +296,12 @@ void CPU::i77()
 
 }
 
-void CPU::i79()
-{
-
-}
-
 void CPU::i7B()
 {
 
 }
 
 void CPU::i7C()
-{
-
-}
-
-void CPU::i7D()
 {
 
 }
@@ -446,11 +391,6 @@ void CPU::iAF()
 
 }
 
-void CPU::iB1()
-{
-
-}
-
 void CPU::iB3()
 {
 
@@ -461,32 +401,7 @@ void CPU::iB7()
 
 }
 
-void CPU::iB8()
-{
-
-}
-
-void CPU::iB9()
-{
-
-}
-
 void CPU::iBB()
-{
-
-}
-
-void CPU::iBC()
-{
-
-}
-
-void CPU::iBD()
-{
-
-}
-
-void CPU::iBE()
 {
 
 }
@@ -517,11 +432,6 @@ void CPU::iCB()
 }
 
 void CPU::iCF()
-{
-
-}
-
-void CPU::iD1()
 {
 
 }
@@ -581,11 +491,6 @@ void CPU::iEF()
 
 }
 
-void CPU::iF1()
-{
-
-}
-
 void CPU::iF3()
 {
 
@@ -601,22 +506,12 @@ void CPU::iF7()
 
 }
 
-void CPU::iF9()
-{
-
-}
-
 void CPU::iFB()
 {
 
 }
 
 void CPU::iFC()
-{
-
-}
-
-void CPU::iFD()
 {
 
 }
@@ -651,20 +546,32 @@ Byte CPU::ZPY()
 
 Word CPU::ABS()
 {
-    Word addr = getPC() + ((Word)getPC() >> 8);
+    Word addr = getPC() + ((Word)getPC() << 8);
     return getMemory(addr);
 }
 
 Word CPU::ABSX()
 {
-    Word addr = getPC() + ((Word)getPC() >> 8);
-    return getMemory(addr+X);
+    Word low = getPC();
+    Word high = getPC();
+    Word addr = low + (high << 8) + X;
+    if ((addr & 0xFF00) != (high << 8)){
+        opcounter++;
+        counter++;
+    }
+    return getMemory(addr);
 }
 
 Word CPU::ABSY()
 {
-    Word addr = getPC() + ((Word)getPC() >> 8);
-    return getMemory(addr+Y);
+    Word low = getPC();
+    Word high = getPC();
+    Word addr = low + (high << 8) + Y;
+    if ((addr & 0xFF00) != (high << 8)){
+        opcounter++;
+        counter++;
+    }
+    return getMemory(addr);
 }
 
 Pointer CPU::IND()
@@ -681,12 +588,25 @@ Pointer CPU::IND()
 
 Word CPU::INDX()
 {
+    Word temp = getPC();
+    Word low = getMemory((temp + (Word)X) & 0x00FF);
+    Word high = getMemory((temp + (Word)X +1) & 0x00FF);
 
+    return getMemory((high << 8) | low);
 }
 
 Word CPU::INDY()
 {
+    Word temp = getPC();
+    Word low = getMemory((temp + (Word)X) & 0x00FF);
+    Word high = getMemory((temp + (Word)X +1) & 0x00FF);
 
+    Pointer addr = (high << 8) | low + Y;
+    if ((addr & 0xFF00) != (high << 8)){
+        opcounter++;
+        counter++;
+    }
+    return getMemory(addr);
 }
 
 Pointer CPU::INDX_Addr()
@@ -1192,7 +1112,7 @@ void CPU::setPC(Word addr)
 
 void CPU::push(Pointer addr)
 {
-    Byte pch = (addr << 8) & 0x00FF;
+    Byte pch = (addr >> 8) & 0x00FF;
     Byte pcl = addr & 0x00FF;
     setMemory(0x0100+S, pch);
     S--;
@@ -1202,5 +1122,9 @@ void CPU::push(Pointer addr)
 
 Pointer CPU::pop()
 {
-
+    S++;
+    Byte pcl = getMemory(0x0100+S);
+    S++;
+    Byte pch = getMemory(0x0100+S);
+    return (pch << 8) + pcl;
 }

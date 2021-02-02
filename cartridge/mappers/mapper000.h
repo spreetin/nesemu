@@ -1,22 +1,21 @@
 #ifndef MAPPER000_H
 #define MAPPER000_H
 
-#include <array>
 #include "cartridge/cartridge.h"
 #include "hw/units.h"
 
-class mapper000 : public Cartridge
+class Mapper000 : public Cartridge
 {
 public:
-    mapper000();
+    Mapper000(iNES_Header header, std::vector<Byte> PRG_ROM, std::vector<Byte> CHR_ROM) : Cartridge(header, PRG_ROM, CHR_ROM) {}
 
+
+    // Cartridge interface
 public:
-    Byte getMemory(Pointer addr);
-
-private:
-    std::array<Byte, 16*1024> low;
-    std::array<Byte, 16*1024> high;
-    bool hasHigh;
+    Byte readCPU(Pointer addr);
+    void writeCPU(Pointer addr, Byte data);
+    Byte readPPU(Pointer addr);
+    void writePPU(Pointer addr, Byte data);
 };
 
 #endif // MAPPER000_H
