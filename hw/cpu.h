@@ -3,7 +3,7 @@
 
 class Bus;
 
-#include "hw/units.h"
+#include "units.h"
 #include <vector>
 
 class CPU
@@ -388,8 +388,9 @@ private:
     void setCarryFlag(bool value) {if (value){P = P | 1;} else {P = P & (~1);}}
 
     Byte getPC() {
+        Byte byte = getMemory(PC);
         PC++;
-        return getMemory(PC-1);
+        return byte;
     }
 
     void setPC(Word addr);
@@ -407,7 +408,6 @@ private:
     std::vector<void(CPU::*)()> opcodes;
     std::vector<uint8_t> cycleCount;
 
-    uint32_t counter = 0;
     uint8_t opcounter = 0;
 
     Bus *bus;

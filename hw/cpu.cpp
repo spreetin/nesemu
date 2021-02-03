@@ -66,13 +66,12 @@ CPU::CPU(Bus *bus)
 
 void CPU::cycle()
 {
-    if (opcounter){
+    if (opcounter > 0){
         opcounter--;
     } else {
         Byte code = getPC();
-        (this->*opcodes[code])();
-        counter += cycleCount[code];
         opcounter = cycleCount[code]-1;
+        (this->*opcodes[code])();
     }
 }
 
@@ -81,7 +80,7 @@ void CPU::reset()
     S += 3;
     setInterruptFlag(true);
     setPC(0xFFFC);
-    counter += 8;
+    opcounter += 8;
 }
 
 void CPU::IRQ()
@@ -92,7 +91,7 @@ void CPU::IRQ()
     setMemory(0x100 + S -2, P);
     S -= 3;
     setPC(0xFFFE);
-    counter += 7;
+    opcounter += 7;
 }
 
 void CPU::NMI()
@@ -103,7 +102,7 @@ void CPU::NMI()
     setMemory(0x100 + S -2, P);
     S -= 3;
     setPC(0xFFFA);
-    counter += 8;
+    opcounter += 8;
 }
 
 Byte CPU::IMM()
@@ -165,7 +164,6 @@ Pointer CPU::ABSX_Addr()
     Word addr = low + (high << 8) + X;
     if ((addr & 0xFF00) != (high << 8)){
         opcounter++;
-        counter++;
     }
     return addr;
 }
@@ -177,7 +175,6 @@ Pointer CPU::ABSY_Addr()
     Word addr = low + (high << 8) + Y;
     if ((addr & 0xFF00) != (high << 8)){
         opcounter++;
-        counter++;
     }
     return addr;
 }
@@ -222,7 +219,6 @@ Pointer CPU::INDY_Addr()
     Pointer addr = (high << 8) | low + Y;
     if ((addr & 0xFF00) != (high << 8)){
         opcounter++;
-        counter++;
     }
     return addr;
 }
@@ -263,9 +259,9 @@ void CPU::BCC()
     Byte rel = getPC();
     if (!carryFlag()){
         if ((PC & 0x00FF) + rel > 0xFF){
-            counter++;
+            opcounter++;
         }
-        counter++;
+        opcounter++;
         PC += rel;
     }
 }
@@ -275,9 +271,9 @@ void CPU::BCS()
     Byte rel = getPC();
     if (carryFlag()){
         if ((PC & 0x00FF) + rel > 0xFF){
-            counter++;
+            opcounter++;
         }
-        counter++;
+        opcounter++;
         PC += rel;
     }
 }
@@ -287,9 +283,9 @@ void CPU::BEQ()
     Byte rel = getPC();
     if (zeroFlag()){
         if ((PC & 0x00FF) + rel > 0xFF){
-            counter++;
+            opcounter++;
         }
-        counter++;
+        opcounter++;
         PC += rel;
     }
 }
@@ -307,9 +303,9 @@ void CPU::BMI()
     Byte rel = getPC();
     if (negativeFlag()){
         if ((PC & 0x00FF) + rel > 0xFF){
-            counter++;
+            opcounter++;
         }
-        counter++;
+        opcounter++;
         PC += rel;
     }
 }
@@ -319,9 +315,9 @@ void CPU::BNE()
     Byte rel = getPC();
     if (!zeroFlag()){
         if ((PC & 0x00FF) + rel > 0xFF){
-            counter++;
+            opcounter++;
         }
-        counter++;
+        opcounter++;
         PC += rel;
     }
 }
@@ -331,9 +327,9 @@ void CPU::BPL()
     Byte rel = getPC();
     if (!negativeFlag()){
         if ((PC & 0x00FF) + rel > 0xFF){
-            counter++;
+            opcounter++;
         }
-        counter++;
+        opcounter++;
         PC += rel;
     }
 }
@@ -353,9 +349,9 @@ void CPU::BVC()
     Byte rel = getPC();
     if (!overflowFlag()){
         if ((PC & 0x00FF) + rel > 0xFF){
-            counter++;
+            opcounter++;
         }
-        counter++;
+        opcounter++;
         PC += rel;
     }
 }
@@ -365,9 +361,9 @@ void CPU::BVS()
     Byte rel = getPC();
     if (overflowFlag()){
         if ((PC & 0x00FF) + rel > 0xFF){
-            counter++;
+            opcounter++;
         }
-        counter++;
+        opcounter++;
         PC += rel;
     }
 }
@@ -817,13 +813,13 @@ void CPU::AXS(Byte data)
 
 Byte CPU::getMemory(Pointer addr)
 {
-    Byte data = bus->getMemory(addr);
+    Byte data = bus->getCPUMemory(addr);
     return data;
 }
 
 void CPU::setMemory(Pointer addr, Byte data)
 {
-    bus->setMemory(addr, data);
+    bus->setCPUMemory(addr, data);
 }
 
 void CPU::setPC(Word addr)
