@@ -7,8 +7,9 @@ CPU::CPU(Bus *bus)
     A = 0;
     X = 0;
     Y = 0;
-    P = 0x34;
+    P = 0x24;
     S = 0xFD;
+    PC = 0xC000;
     opcodes = {
         &CPU::i00, &CPU::i01, &CPU::i02, &CPU::i03, &CPU::i04, &CPU::i05, &CPU::i06, &CPU::i07,
         &CPU::i08, &CPU::i09, &CPU::i0A, &CPU::i0B, &CPU::i0C, &CPU::i0D, &CPU::i0E, &CPU::i0F,
@@ -62,16 +63,26 @@ CPU::CPU(Bus *bus)
         2, 6, 2, 8, 3, 3, 5, 5, 2, 2, 2, 2, 4, 4, 6, 6, // E
         2, 5, 0, 8, 4, 4, 6, 6, 2, 4, 2, 4, 4, 4, 7, 7  // F
     };
+
+    logger = std::ofstream("/tmp/nes.log", std::ios::trunc);
 }
 
 void CPU::cycle()
 {
     if (opcounter > 0){
+        cycleNum++;
         opcounter--;
     } else {
+        Word oPC = PC;
+        Byte A1 = getMemory(PC+1);
+        Byte A2 = getMemory(PC+2);
         Byte code = getPC();
-        opcounter = cycleCount[code]-1;
+        char str[200];
+        sprintf(str, "%-4X  %02X %02X %02X    A:%02X X:%02X Y:%02X P:%02X S:%02X  02:%02X 03:%02X CYC:%u\n",
+                oPC, code, A1, A2, A, X, Y, P, S, getMemory(0x02), getMemory(0x03), cycleNum);
+        opcounter = cycleCount[code];
         (this->*opcodes[code])();
+        logger << str;
     }
 }
 
@@ -124,6 +135,11 @@ Byte CPU::ZPX()
 Byte CPU::ZPY()
 {
     return getMemory(ZPY_Addr());
+}
+
+Pointer CPU::ZPI_Addr()
+{
+    return getPC();
 }
 
 Pointer CPU::ZPX_Addr()
@@ -216,7 +232,7 @@ Pointer CPU::INDY_Addr()
     Word low = getMemory((temp + (Word)X) & 0x00FF);
     Word high = getMemory((temp + (Word)X +1) & 0x00FF);
 
-    Pointer addr = (high << 8) | low + Y;
+    Pointer addr = (high << 8) | (low + Y);
     if ((addr & 0xFF00) != (high << 8)){
         opcounter++;
     }
@@ -292,10 +308,9 @@ void CPU::BEQ()
 
 void CPU::BIT(Byte data)
 {
-    setZeroFlag(data & A);
-    data = data >> 6;
-    setOverflowFlag(1 & data);
-    setNegativeFlag(2 & data);
+    setZeroFlag(!(data & A));
+    setOverflowFlag(0x40 & data);
+    setNegativeFlag(0x80 & data);
 }
 
 void CPU::BMI()
@@ -352,7 +367,7 @@ void CPU::BVC()
             opcounter++;
         }
         opcounter++;
-        PC += rel;
+        PC = (((PC & 0x00FF) + rel) & 0x00FF) + (PC & 0xFF00);
     }
 }
 
@@ -364,7 +379,7 @@ void CPU::BVS()
             opcounter++;
         }
         opcounter++;
-        PC += rel;
+        PC = (((PC & 0x00FF) + rel) & 0x00FF) + (PC & 0xFF00);
     }
 }
 
@@ -469,7 +484,7 @@ void CPU::JMP(Pointer addr)
 
 void CPU::JSR(Pointer addr)
 {
-    push(PC);
+    push(PC-1);
     PC = addr;
 }
 
@@ -522,7 +537,7 @@ void CPU::PHA()
 
 void CPU::PHP()
 {
-    setMemory(0x100 + S, P);
+    setMemory(0x0100 + S, P);
     S--;
 }
 
@@ -576,7 +591,7 @@ void CPU::ROR(Pointer addr, bool useA)
             A &= ~0x80;
         }
         setCarryFlag(cb);
-        setZeroFlag(~A);
+        setZeroFlag(!A);
         setNegativeFlag(A & 0x80);
     } else {
         Byte data = getMemory(addr);
@@ -588,7 +603,7 @@ void CPU::ROR(Pointer addr, bool useA)
             data &= ~0x80;
         }
         setCarryFlag(cb);
-        setZeroFlag(~data);
+        setZeroFlag(!data);
         setNegativeFlag(data & 0x80);
         setMemory(addr, data);
     }
@@ -597,15 +612,21 @@ void CPU::ROR(Pointer addr, bool useA)
 void CPU::RTI()
 {
     S++;
-    P = getMemory(0x0100 + S + 1);
-    setPC(0x0100+S+2);
-    S += 3;
+    P = getMemory(0x0100 + S);
+    S++;
+    Word pcl = getMemory(0x0100+S);
+    S++;
+    Word pch = getMemory(0x0100+S) << 8;
+    PC = pcl|pch;
 }
 
 void CPU::RTS()
 {
-    setPC(0x0100+S+1);
-    S += 2;
+    S++;
+    Word pcl = getMemory(0x0100+S);
+    S++;
+    Word pch = ((Word)getMemory(0x0100+S)) << 8;
+    PC = pcl|pch;
     PC++;
 }
 
@@ -756,7 +777,7 @@ void CPU::ARR(Byte data)
     } else {
         temp >>= 1;
         temp &= 0x8F & (carryFlag() << 7);
-        setZeroFlag(~temp);
+        setZeroFlag(!temp);
         setNegativeFlag(temp & 0x80);
         setCarryFlag(temp & 0x40);
         setOverflowFlag(((temp >> 4) ^ (temp >> 5)) & 0x01);
@@ -794,7 +815,7 @@ void CPU::LAX(Byte data)
 {
     X = data;
     A = X;
-    setZeroFlag(~A);
+    setZeroFlag(!A);
     setNegativeFlag(A & 0x80);
 }
 

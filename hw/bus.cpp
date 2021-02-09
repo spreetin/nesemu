@@ -4,6 +4,7 @@
 #include "hw/ppu.h"
 #include "hw/apu.h"
 #include "cartridge/cartridge.h"
+#include "cartridge/cartridgeloader.h"
 #include "engine/graphics/screen.h"
 #include <ctime>
 
@@ -13,6 +14,8 @@ Bus::Bus()
     ppu = new PPU(this);
     apu = new APU();
     screen = new Screen();
+    CartridgeLoader loader;
+    cartridge = loader.loadFile("/tmp/test.nes");
 }
 
 Bus::~Bus()

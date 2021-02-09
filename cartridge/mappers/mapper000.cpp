@@ -19,11 +19,7 @@ void Mapper000::writeCPU(Pointer addr, Byte data)
 
 Byte Mapper000::readPPU(Pointer addr)
 {
-    if (addr > 0x1FFF){
-        return 0x00;
-    } else {
-        return CHR_ROM[addr];
-    }
+    return Cartridge::readPPU(addr);
 }
 
 void Mapper000::writePPU(Pointer addr, Byte data)

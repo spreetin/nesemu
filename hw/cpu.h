@@ -5,6 +5,7 @@ class Bus;
 
 #include "units.h"
 #include <vector>
+#include <fstream>
 
 class CPU
 {
@@ -48,13 +49,13 @@ public:
     inline void i1D() {ORA(ABSX());}
     inline void i1E() {ASL(ABSX_Addr());}
     inline void i1F() {SLO(ABSX_Addr());}
-    inline void i20() {JSR(ABS());}
+    inline void i20() {JSR(ABS_Addr());}
     inline void i21() {AND(INDX());}
     inline void i22() {KILL();}
     inline void i23() {RLA(INDX_Addr());}
     inline void i24() {BIT(ZPI());}
     inline void i25() {AND(ZPI());}
-    inline void i26() {ROL(ZPI());}
+    inline void i26() {ROL(ZPI_Addr());}
     inline void i27() {RLA(getPC());}
     inline void i28() {PLP();}
     inline void i29() {AND(IMM());}
@@ -62,7 +63,7 @@ public:
     inline void i2B() {AND(IMM()); setCarryFlag(negativeFlag());}
     inline void i2C() {BIT(ABS());}
     inline void i2D() {AND(ABS());}
-    inline void i2E() {ROL(ABS());}
+    inline void i2E() {ROL(ABS_Addr());}
     inline void i2F() {RLA(ABS_Addr());}
     inline void i30() {BMI();}
     inline void i31() {AND(INDY());}
@@ -70,7 +71,7 @@ public:
     inline void i33() {RLA(INDY_Addr());}
     inline void i34() {NOP(); getPC();}
     inline void i35() {AND(ZPX());}
-    inline void i36() {ROL(ZPX());}
+    inline void i36() {ROL(ZPX_Addr());}
     inline void i37() {RLA(ZPX_Addr());}
     inline void i38() {SEC();}
     inline void i39() {AND(ABSY());}
@@ -78,7 +79,7 @@ public:
     inline void i3B() {RLA(ABSY_Addr());}
     inline void i3C() {getMemory(ABSX_Addr());}
     inline void i3D() {AND(ABSX());}
-    inline void i3E() {ROL(ABSX());}
+    inline void i3E() {ROL(ABSX_Addr());}
     inline void i3F() {RLA(ABSX_Addr());}
     inline void i40() {RTI();}
     inline void i41() {EOR(INDX());}
@@ -86,7 +87,7 @@ public:
     inline void i43() {SRE(INDX_Addr());}
     inline void i44() {NOP(); getPC();}
     inline void i45() {EOR(ZPI());}
-    inline void i46() {LSR(ZPI());}
+    inline void i46() {LSR(ZPI_Addr());}
     inline void i47() {SRE(getPC());}
     inline void i48() {PHA();}
     inline void i49() {EOR(IMM());}
@@ -94,7 +95,7 @@ public:
     inline void i4B() {AND(IMM()); LSR(0x0, true);}
     inline void i4C() {JMP(ABS_Addr());}
     inline void i4D() {EOR(ABS());}
-    inline void i4E() {LSR(ABS());}
+    inline void i4E() {LSR(ABS_Addr());}
     inline void i4F() {SRE(ABS_Addr());}
     inline void i50() {BVC();}
     inline void i51() {EOR(INDY());}
@@ -102,7 +103,7 @@ public:
     inline void i53() {SRE(INDY_Addr());}
     inline void i54() {NOP(); getPC();}
     inline void i55() {EOR(ZPX());}
-    inline void i56() {LSR(ZPX());}
+    inline void i56() {LSR(ZPX_Addr());}
     inline void i57() {SRE(ZPX_Addr());}
     inline void i58() {CLI();}
     inline void i59() {EOR(ABSY());}
@@ -110,7 +111,7 @@ public:
     inline void i5B() {SRE(ABSY_Addr());}
     inline void i5C() {getMemory(ABSX_Addr());}
     inline void i5D() {EOR(ABSX());}
-    inline void i5E() {LSR(ABSX());}
+    inline void i5E() {LSR(ABSX_Addr());}
     inline void i5F() {SRE(ABSX_Addr());}
     inline void i60() {RTS();}
     inline void i61() {ADC(INDX());}
@@ -118,7 +119,7 @@ public:
     inline void i63() {RRA(INDX_Addr());}
     inline void i64() {NOP(); getPC();}
     inline void i65() {ADC(ZPI());}
-    inline void i66() {ROR(ZPI());}
+    inline void i66() {ROR(ZPI_Addr());}
     inline void i67() {RRA(getPC());}
     inline void i68() {PLA();}
     inline void i69() {ADC(IMM());}
@@ -126,7 +127,7 @@ public:
     inline void i6B() {ARR(IMM());}
     inline void i6C() {JMP(IND());}
     inline void i6D() {ADC(ABS());}
-    inline void i6E() {ROR(ABS());}
+    inline void i6E() {ROR(ABS_Addr());}
     inline void i6F() {RRA(ABS_Addr());}
     inline void i70() {BVS();}
     inline void i71() {ADC(INDY());}
@@ -134,7 +135,7 @@ public:
     inline void i73() {RRA(INDY_Addr());}
     inline void i74() {NOP(); getPC();}
     inline void i75() {ADC(ZPX());}
-    inline void i76() {ROR(ZPX());}
+    inline void i76() {ROR(ZPX_Addr());}
     inline void i77() {RRA(ZPX_Addr());}
     inline void i78() {SEI();}
     inline void i79() {ADC(ABSY());}
@@ -142,7 +143,7 @@ public:
     inline void i7B() {RRA(ABSY_Addr());}
     inline void i7C() {getMemory(ABSX_Addr());}
     inline void i7D() {ADC(ABSX());}
-    inline void i7E() {ROR(ABSX());}
+    inline void i7E() {ROR(ABSX_Addr());}
     inline void i7F() {RRA(ABSX_Addr());}
     inline void i80() {IMM(); NOP();}
     inline void i81() {STA(INDX_Addr());}
@@ -246,7 +247,7 @@ public:
     inline void iE3() {ISC(ZPX_Addr());}
     inline void iE4() {CPX(ZPI());}
     inline void iE5() {SBC(ZPI());}
-    inline void iE6() {INC(ZPI());}
+    inline void iE6() {INC(ZPI_Addr());}
     inline void iE7() {ISC(getPC());}
     inline void iE8() {INX();}
     inline void iE9() {SBC(IMM());}
@@ -254,7 +255,7 @@ public:
     inline void iEB() {SBC(IMM());}
     inline void iEC() {CPX(ABS());}
     inline void iED() {SBC(ABS());}
-    inline void iEE() {INC(ABS());}
+    inline void iEE() {INC(ABS_Addr());}
     inline void iEF() {ISC(ABS_Addr());}
     inline void iF0() {BEQ();}
     inline void iF1() {SBC(INDY());}
@@ -262,7 +263,7 @@ public:
     inline void iF3() {ISC(INDY_Addr());}
     inline void iF4() {NOP(); getPC();}
     inline void iF5() {SBC(ZPX());}
-    inline void iF6() {INC(ZPX());}
+    inline void iF6() {INC(ZPX_Addr());}
     inline void iF7() {ISC(ZPX_Addr());}
     inline void iF8() {SED();}
     inline void iF9() {SBC(ABSY());}
@@ -270,13 +271,14 @@ public:
     inline void iFB() {ISC(ABSY_Addr());}
     inline void iFC() {getMemory(ABSX_Addr());}
     inline void iFD() {SBC(ABSX());}
-    inline void iFE() {INC(ABSX());}
+    inline void iFE() {INC(ABSX_Addr());}
     inline void iFF() {ISC(ABSX_Addr());}
 
     Byte IMM();
     Byte ZPI();
     Byte ZPX();
     Byte ZPY();
+    Pointer ZPI_Addr();
     Pointer ZPX_Addr();
     Pointer ZPY_Addr();
     Word ABS();
@@ -408,9 +410,13 @@ private:
     std::vector<void(CPU::*)()> opcodes;
     std::vector<uint8_t> cycleCount;
 
+    uint64_t cycleNum = 7;
+
     uint8_t opcounter = 0;
 
     Bus *bus;
+
+    std::ofstream logger;
 };
 
 #endif // CPU_H

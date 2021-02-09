@@ -20,6 +20,7 @@ HEADERS += \
     cartridge/cartridge.h \
     cartridge/cartridgeloader.h \
     cartridge/mappers/mapper000.h \
+    cartridge/mappers/mapper_selecter.h \
     engine/graphics/screen.h \
     engine/sound/sound.h \
     hw/apu.h \

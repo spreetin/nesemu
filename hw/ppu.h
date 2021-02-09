@@ -83,6 +83,19 @@ private:
     LoppyReg VRAM_Addr;
     LoppyReg TRAM_Addr;
 
+    Word shift16_1;
+    Word shift16_2;
+    Byte shift8_1;
+    Byte shift8_2;
+
+    struct SpriteReg {
+        Byte shift;
+        Byte latch;
+        Byte counter;
+    };
+
+    std::array<SpriteReg, 8> sprites;
+
     bool oddFrame = false;
 
     std::array<Byte, 256> OAM_MEM;
