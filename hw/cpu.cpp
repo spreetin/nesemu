@@ -78,8 +78,8 @@ void CPU::cycle()
         Byte A2 = getMemory(PC+2);
         Byte code = getPC();
         char str[200];
-        sprintf(str, "%-4X  %02X %02X %02X    A:%02X X:%02X Y:%02X P:%02X S:%02X  02:%02X 03:%02X CYC:%u\n",
-                oPC, code, A1, A2, A, X, Y, P, S, getMemory(0x02), getMemory(0x03), cycleNum);
+        sprintf(str, "%-4X  %02X %02X %02X    A:%02X X:%02X Y:%02X P:%02X S:%02X  0:%02X 1:%02X 2:%02X 3:%02X CYC:%u\n",
+                oPC, code, A1, A2, A, X, Y, P, S, getMemory(0x00), getMemory(0x01), getMemory(0x02), getMemory(0x03), cycleNum);
         opcounter = cycleCount[code];
         (this->*opcodes[code])();
         logger << str;
@@ -241,9 +241,10 @@ Pointer CPU::INDY_Addr()
 
 void CPU::ADC(Word data)
 {
-    Word result = data + Word(A) + Word(carryFlag());
+    Word result = data + (Word)A
+            + (carryFlag() ? 0x01 : 0x00);
     setCarryFlag(result > 0xFF);
-    setNegativeFlag(A & 0x80);
+    setNegativeFlag(result & 0x80);
     setZeroFlag(!(result & 0x00FF));
     setOverflowFlag((~((Word)A ^ (Word)data) & ((Word)A ^ (Word)result)) & 0x0080);
     A = result & 0x00FF;
@@ -251,8 +252,10 @@ void CPU::ADC(Word data)
 
 void CPU::AND(Byte data)
 {
-    setZeroFlag(!(A & data));
-    setNegativeFlag((A & data) & 0x80);
+    Byte result = A & data;
+    setZeroFlag(!result);
+    setNegativeFlag(result & 0x80);
+    A = result;
 }
 
 void CPU::ASL(Pointer addr, bool useA)
@@ -261,12 +264,16 @@ void CPU::ASL(Pointer addr, bool useA)
         setCarryFlag(A & 0x80);
         A <<= 1;
         A &= 0xFE;
+        setNegativeFlag(A & 0x80);
+        setZeroFlag(!A);
     } else {
         Byte data = getMemory(addr);
         setCarryFlag(data & 0x80);
         data <<= 1;
         data &= 0xFE;
         setMemory(addr, data);
+        setNegativeFlag(data & 0x80);
+        setZeroFlag(!data);
     }
 }
 
@@ -414,14 +421,14 @@ void CPU::CPX(Byte data)
 {
     setZeroFlag(X == data);
     setCarryFlag(X >= data);
-    setNegativeFlag(data & 0x80);
+    setNegativeFlag((X - data) & 0x80);
 }
 
 void CPU::CPY(Byte data)
 {
     setZeroFlag(Y == data);
     setCarryFlag(Y >= data);
-    setNegativeFlag(data & 0x80);
+    setNegativeFlag((Y - data) & 0x80);
 }
 
 void CPU::DEC(Pointer addr)
@@ -514,12 +521,17 @@ void CPU::LSR(Pointer addr, bool useA)
     if (useA){
         setCarryFlag(A & 0x01);
         A >>= 1;
+        A &= 0x7F;
+        setZeroFlag(!A);
     } else {
         Byte data = getMemory(addr);
         setCarryFlag(data & 0x01);
         data >>= 1;
+        data &= 0x7F;
         setMemory(addr, data);
+        setZeroFlag(!data);
     }
+    setNegativeFlag(false);
 }
 
 void CPU::ORA(Byte data)
@@ -537,7 +549,7 @@ void CPU::PHA()
 
 void CPU::PHP()
 {
-    setMemory(0x0100 + S, P);
+    setMemory(0x0100 + S, P|0x30);
     S--;
 }
 
@@ -634,8 +646,8 @@ void CPU::SBC(Word data)
 {
     Word temp = data ^ 0x00FF;
     Word result = temp + Word(A) + Word(carryFlag());
-    setCarryFlag(result > 0xFF);
-    setNegativeFlag(A & 0x80);
+    setCarryFlag(result & 0xFF00);
+    setNegativeFlag(result & 0x80);
     setZeroFlag(!(result & 0x00FF));
     setOverflowFlag(((Word)A ^ result) & (temp ^ result) & 0x0080);
     A = result & 0x00FF;
@@ -701,7 +713,7 @@ void CPU::TXA()
 
 void CPU::TXS()
 {
-    X = S;
+    S = X;
 }
 
 void CPU::TYA()
