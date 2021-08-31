@@ -15,7 +15,7 @@ Bus::Bus()
     apu = new APU();
     screen = new Screen();
     CartridgeLoader loader;
-    cartridge = loader.loadFile("/tmp/test.nes");
+    cartridge = loader.loadFile("/home/david/nestest.nes");
 }
 
 Bus::~Bus()

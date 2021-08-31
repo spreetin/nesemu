@@ -78,7 +78,7 @@ void CPU::cycle()
         Byte A2 = getMemory(PC+2);
         Byte code = getPC();
         char str[200];
-        sprintf(str, "%-4X  %02X %02X %02X    A:%02X X:%02X Y:%02X P:%02X S:%02X  0:%02X 1:%02X 2:%02X 3:%02X CYC:%u\n",
+        sprintf(str, "%-4X  %02X %02X %02X    A:%02X X:%02X Y:%02X P:%02X S:%02X  0:%02X 1:%02X 2:%02X 3:%02X CYC:%lu\n",
                 oPC, code, A1, A2, A, X, Y, P, S, getMemory(0x00), getMemory(0x01), getMemory(0x02), getMemory(0x03), cycleNum);
         opcounter = cycleCount[code];
         (this->*opcodes[code])();
@@ -99,7 +99,7 @@ void CPU::IRQ()
     P |= 52;
     setMemory(0x0100 + S, Byte((PC >> 8) & 0x00FF));
     setMemory(0x0100 + S - 1, Byte(PC & 0x00FF));
-    setMemory(0x100 + S -2, P);
+    setMemory(0x100 + S -2, P & 0xEF);
     S -= 3;
     setPC(0xFFFE);
     opcounter += 7;
@@ -110,7 +110,7 @@ void CPU::NMI()
     P |= 52;
     setMemory(0x0100 + S, Byte((PC >> 8) & 0x00FF));
     setMemory(0x0100 + S - 1, Byte(PC & 0x00FF));
-    setMemory(0x100 + S -2, P);
+    setMemory(0x100 + S -2, P & 0xEF);
     S -= 3;
     setPC(0xFFFA);
     opcounter += 8;
@@ -361,7 +361,7 @@ void CPU::BRK()
     setBreakFlag(true);
     setMemory(0x0100 + S, Byte((PC >> 8) & 0x00FF));
     setMemory(0x0100 + S - 1, Byte(PC & 0x00FF));
-    setMemory(0x100 + S -2, P);
+    setMemory(0x100 + S -2, P|0x30);
     S -= 3;
     setPC(0xFFFE);
 }
@@ -564,7 +564,7 @@ void CPU::PLA()
 void CPU::PLP()
 {
     S++;
-    P = getMemory(0x0100 + S);
+    P = (getMemory(0x0100 + S) & 0xCF) | (P & 0x30);
 }
 
 void CPU::ROL(Pointer addr, bool useA)
@@ -624,7 +624,7 @@ void CPU::ROR(Pointer addr, bool useA)
 void CPU::RTI()
 {
     S++;
-    P = getMemory(0x0100 + S);
+    P = (getMemory(0x0100 + S) & 0xCF) | (P & 0x30);
     S++;
     Word pcl = getMemory(0x0100+S);
     S++;
