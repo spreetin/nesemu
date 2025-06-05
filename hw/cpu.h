@@ -3,14 +3,24 @@
 
 class Bus;
 
-#include "units.h"
+#include "../units.h"
 #include <vector>
 #include <fstream>
+#include <string>
 
 class CPU
 {
 public:
     CPU(Bus *bus);
+
+    char current_code[10];
+    char current_mnemonic[10];
+    char current_P[10];
+    char current_A[10];
+    char current_X[10];
+    char current_Y[10];
+    char current_SP[10];
+    char current_PC[10];
 
     void cycle();
     void reset();
@@ -373,13 +383,13 @@ private:
     Byte getMemory(Pointer addr);
     void setMemory(Pointer addr, Byte data);
 
-    bool negativeFlag() {return P & 128;}
-    bool overflowFlag() {return P & 64;}
-    bool breakFlag() {return P & 16;}
-    bool decimalModeFlag() {return P & 8;}
-    bool interruptFlag() {return P & 4;}
-    bool zeroFlag() {return P & 2;}
-    bool carryFlag() {return P & 1;}
+    bool negativeFlag() const {return P & 128;}
+    bool overflowFlag() const {return P & 64;}
+    bool breakFlag() const {return P & 16;}
+    bool decimalModeFlag() const {return P & 8;}
+    bool interruptFlag() const {return P & 4;}
+    bool zeroFlag() const {return P & 2;}
+    bool carryFlag() const {return P & 1;}
 
     void setNegativeFlag(bool value) {if (value){P = P | 128;} else {P = P & (~128);}}
     void setOverflowFlag(bool value) {if (value){P = P | 64;} else {P = P & (~64);}}
@@ -400,6 +410,8 @@ private:
     void push(Pointer addr);
     Pointer pop();
 
+    std::string getRepr(Byte code, Byte A1, Byte A2) const;
+
     Byte A;
     Byte X;
     Byte Y;
@@ -407,7 +419,9 @@ private:
     Byte S;
     Byte P;
 
+    std::vector<uint8_t> readCount;
     std::vector<void(CPU::*)()> opcodes;
+    std::vector<std::string> opnames;
     std::vector<uint8_t> cycleCount;
 
     uint64_t cycleNum = 7;

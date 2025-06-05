@@ -3,9 +3,12 @@
 
 class SDL_Window;
 class SDL_Renderer;
+class TTF_Font;
 
-#include "units.h"
+
+#include "../../units.h"
 #include <array>
+#include <string>
 
 union Scaling {
     int i;
@@ -25,24 +28,45 @@ union color {
 class Screen
 {
 public:
-    Screen(int xSize = 968, int ySize = 720); // 3x 256x240
+    Screen(int xSize = 1152, int ySize = 1080); // 3x 256x240
     ~Screen();
 
     void show();
+    void clear();
 
     void setResolution(int xSize, int ySize);
-    void setScalingI(int scaling);
-    void setScalingF(float scaling);
     void draw();
     void setPixel(int x, int y, uint8_t col, bool alpha = false);
+
+    // Helpers
+    void drawBox(int x, int y, int w, int h, int thickness, color c);
+    void drawText(int x, int y, int size, std::string text);
+
+    // Debug framework
+    void drawExtras();
+    void drawInfoText(char *pc, char *code, char *mnemonic, char *p, char *a, char* x, char *y, char *sp);
 
 private:
     int xRes = -1;
     int yRes = -1;
     SDL_Window * window = nullptr;
-    SDL_Renderer *renderer = nullptr;
+    SDL_Renderer * renderer = nullptr;
+    SDL_Texture * texture = nullptr;
+    SDL_Texture * back_texture = nullptr;
 
-    std::array<std::array<color, 240>, 256> nextScreen;
+    SDL_Rect main_rect = {0, 0, 768, 720};
+
+    TTF_Font * sans_font;
+
+    struct text_block {
+        SDL_Texture *texture;
+        SDL_Rect *rect;
+    };
+
+    std::array<color, 256*240> nextScreen;
+    std::array<color, 384*360> backBox;
+
+    std::array<text_block, 8> text_blocks;
 
     std::array<color, 0x40> palette = {{
 //      0 / 8     1 / 9     2 / A     3 / B     4 / C     5 / D     6 / E     7 / F

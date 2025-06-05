@@ -7,7 +7,7 @@ class CPU;
 class Cartridge;
 class Screen;
 
-#include "units.h"
+#include "../units.h"
 #include <array>
 #include <chrono>
 
@@ -25,6 +25,8 @@ public:
 
     Byte getPPUMemory(Pointer addr);
     void setPPUMemory(Pointer addr, Byte value);
+
+    void setPixel(int x, int y, uint8_t col, bool alpha);
 
 private:
     std::array<Byte, 0x800> RAM;

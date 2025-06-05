@@ -3,23 +3,23 @@
 
 class Bus;
 
-#include "units.h"
+#include "../units.h"
 #include <array>
 
 class PPU
 {
 public:
-    PPU(Bus *bus);
+    explicit PPU(Bus *bus);
 
-    void cycle();
+    void clockCycle();
 
     void reset();
 
-    Byte getReg(Byte addr);
-    void writeReg(Byte addr, Byte data);
+    Byte getReg(Pointer addr);
+    void writeReg(Pointer addr, Byte data);
 
-    Byte getMem(Byte addr);
-    void writeMem(Byte addr, Byte data);
+    Byte getMem(Pointer addr);
+    void writeMem(Pointer addr, Byte data);
 
 private:
     Bus *bus;
@@ -97,6 +97,8 @@ private:
     std::array<SpriteReg, 8> sprites;
 
     bool oddFrame = false;
+    int16_t scanline = 0;
+    int16_t cycle = 0;
 
     std::array<Byte, 256> OAM_MEM;
 };

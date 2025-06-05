@@ -44,6 +44,43 @@ CPU::CPU(Bus *bus)
         &CPU::iF0, &CPU::iF1, &CPU::iF2, &CPU::iF3, &CPU::iF4, &CPU::iF5, &CPU::iF6, &CPU::iF7,
         &CPU::iF8, &CPU::iF9, &CPU::iFA, &CPU::iFB, &CPU::iFC, &CPU::iFD, &CPU::iFE, &CPU::iFF
     };
+    opnames = {
+            "BRK", "ORA", "KIL", "SLO", "NOP", "ORA", "ASL", "SLO", "PHP", "ORA", "ASL", "AND", "NOP", "ORA", "ASL", "SLO",
+            "BPL", "ORA", "KIL", "SLO", "NOP", "ORA", "ASL", "SLO", "CLC", "ORA", "NOP", "SLO", "NOP", "ORA", "ASL", "SLO",
+            "JSR", "AND", "KIL", "RLA", "BIT", "AND", "ROL", "RLA", "PLP", "AND", "ROL", "ANC", "BIT", "AND", "ROL", "RLA",
+            "BMI", "AND", "KIL", "RLA", "NOP", "AND", "ROL", "RLA", "SEC", "AND", "NOP", "RLA", "NOP", "AND", "ROL", "RLA",
+            "RTI", "EOR", "KIL", "SRE", "NOP", "EOR", "LSR", "SRE", "PHA", "EOR", "LSR", "ALR", "JMP", "EOR", "LSR", "SRE",
+            "BVC", "EOR", "KIL", "SRE", "NOP", "EOR", "LSR", "SRE", "CLI", "EOR", "NOP", "SRE", "NOP", "EOR", "LSR", "SRE",
+            "RTS", "ADC", "KIL", "RRA", "NOP", "ADC", "ROR", "RRA", "PLA", "ADC", "ROR", "ARR", "JMP", "ADC", "ROR", "RRA",
+            "BVS", "ADC", "KIL", "RRA", "NOP", "ADC", "ROR", "RRA", "SEI", "ADC", "NOP", "RRA", "NOP", "ADC", "ROR", "RRA",
+            "NOP", "STA", "NOP", "SAX", "STY", "STA", "STX", "SAX", "DEY", "NOP", "TXA", "XAA", "STY", "STA", "STX", "SAX",
+            "BCC", "STA", "KIL", "AHX", "STY", "STA", "STX", "SAX", "TYA", "STA", "TXS", "TAS", "SHY", "STA", "SHX", "AHX",
+            "LDY", "LDA", "LDX", "LAX", "LDY", "LDA", "LDX", "LAX", "TAY", "LDA", "TAX", "LAX", "LDY", "LDA", "LDX", "LAX",
+            "BCS", "LDA", "KIL", "LAX", "LDY", "LDA", "LDX", "LAX", "CLV", "LDA", "TSX", "LAS", "LDY", "LDA", "LDX", "LAX",
+            "CPY", "CMP", "NOP", "DCP", "CPY", "CMP", "DEC", "DCP", "INY", "CMP", "DEX", "AXS", "CPY", "CMP", "DEC", "DCP",
+            "BNE", "CMP", "KIL", "DCP", "NOP", "CMP", "DEC", "DCP", "CLD", "CMP", "NOP", "DCP", "NOP", "CMP", "DEC", "DCP",
+            "CPX", "SBC", "NOP", "ISC", "CPX", "SBC", "INC", "ISC", "INX", "SBC", "NOP", "SBC", "CPX", "SBC", "INC", "ISC",
+            "BEQ", "SBC", "KIL", "ISC", "NOP", "SBC", "INC", "ISC", "SED", "SBC", "NOP", "ISC", "NOP", "SBC", "INC", "ISC"
+    };
+    readCount = {
+          //0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 0
+            0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, // 1
+            3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 2
+            0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, // 3
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, // 4
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 5
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 6
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 7
+            0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 8
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 9
+            0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // A
+            2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // B
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // C
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // D
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, // E
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // F
+    };
     cycleCount = {
       //0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F
         7, 6, 0, 8, 3, 3, 5, 5, 3, 2, 2, 2, 4, 4, 6, 6, // 0
@@ -74,13 +111,26 @@ void CPU::cycle()
         opcounter--;
     } else {
         Word oPC = PC;
-        Byte A1 = getMemory(PC+1);
-        Byte A2 = getMemory(PC+2);
         Byte code = getPC();
+        Byte A1 = ' ', A2 = ' ';
+        switch (readCount[int(code)]){
+            case 3:
+                A2 = getMemory(PC+2);
+            case 2:
+                A1 = getMemory(PC+1);
+        }
         char str[200];
         sprintf(str, "%-4X  %02X %02X %02X    A:%02X X:%02X Y:%02X P:%02X S:%02X  0:%02X 1:%02X 2:%02X 3:%02X CYC:%lu\n",
                 oPC, code, A1, A2, A, X, Y, P, S, getMemory(0x00), getMemory(0x01), getMemory(0x02), getMemory(0x03), cycleNum);
         opcounter = cycleCount[code];
+        sprintf(current_PC, "PC: %-4X", oPC);
+        sprintf(current_code, "X: %02X", code);
+        sprintf(current_mnemonic, "X: %s", opnames[code].c_str());
+        sprintf(current_P, "P: %02X", P);
+        sprintf(current_A, "A: %02X", A);
+        sprintf(current_X, "X: %02X", X);
+        sprintf(current_Y, "Y: %02X", Y);
+        sprintf(current_SP, "S: %02X", S);
         (this->*opcodes[code])();
         logger << str;
     }
@@ -578,6 +628,7 @@ void CPU::ROL(Pointer addr, bool useA)
             A &= ~0x01;
         }
         setCarryFlag(cb);
+        setNegativeFlag(A & 0x80);
     } else {
         Byte data = getMemory(addr);
         bool cb = data & 0x80;
@@ -588,6 +639,7 @@ void CPU::ROL(Pointer addr, bool useA)
             data &= ~0x01;
         }
         setCarryFlag(cb);
+        setNegativeFlag(data & 0x80);
         setMemory(addr, data);
     }
 }
@@ -879,4 +931,8 @@ Pointer CPU::pop()
     S++;
     Byte pch = getMemory(0x0100+S);
     return (pch << 8) + pcl;
+}
+
+std::string CPU::getRepr(Byte code, Byte A1, Byte A2) const {
+    return std::string();
 }

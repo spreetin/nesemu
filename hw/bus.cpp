@@ -1,11 +1,11 @@
 #include <SDL2/SDL.h>
 #include "bus.h"
-#include "hw/cpu.h"
-#include "hw/ppu.h"
-#include "hw/apu.h"
-#include "cartridge/cartridge.h"
-#include "cartridge/cartridgeloader.h"
-#include "engine/graphics/screen.h"
+#include "cpu.h"
+#include "ppu.h"
+#include "apu.h"
+#include "../cartridge/cartridge.h"
+#include "../cartridge/cartridgeloader.h"
+#include "../engine/graphics/screen.h"
 #include <ctime>
 
 Bus::Bus()
@@ -15,7 +15,7 @@ Bus::Bus()
     apu = new APU();
     screen = new Screen();
     CartridgeLoader loader;
-    cartridge = loader.loadFile("/home/david/nestest.nes");
+    cartridge = loader.loadFile("/home/david/nestest/nestest.nes");
 }
 
 Bus::~Bus()
@@ -30,11 +30,13 @@ void Bus::run()
 {
     SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO|SDL_INIT_GAMECONTROLLER|SDL_INIT_EVENTS);
     screen->show();
+    screen->drawExtras();
     SDL_Event event;
     cycleTimer = std::chrono::high_resolution_clock::now();
     cycle();
     struct timespec w = {0, 200};
-    while (!(event.type == SDL_QUIT)){
+    int count = 0;
+    while (event.type != SDL_QUIT){
         elapsedTime += std::chrono::high_resolution_clock::now() - cycleTimer;
         cycleTimer = std::chrono::high_resolution_clock::now();
         if (elapsedTime > cpuCycleTime){
@@ -44,15 +46,30 @@ void Bus::run()
             nanosleep(&w, (struct timespec *)nullptr);
         }
         SDL_PollEvent(&event);
+        count++;
+        if (count == 1000){
+            screen->clear();
+            screen->drawExtras();
+            screen->drawInfoText(cpu->current_PC,
+                                 cpu->current_code,
+                                 cpu->current_mnemonic,
+                                 cpu->current_P,
+                                 cpu->current_A,
+                                 cpu->current_X,
+                                 cpu->current_Y,
+                                 cpu->current_SP);
+            screen->draw();
+            count = 0;
+        }
     }
     SDL_Quit();
 }
 
 void Bus::cycle()
 {
-    ppu->cycle();
-    ppu->cycle();
-    ppu->cycle();
+    ppu->clockCycle();
+    ppu->clockCycle();
+    ppu->clockCycle();
     cpu->cycle();
 }
 
@@ -95,4 +112,8 @@ Byte Bus::getPPUMemory(Pointer addr)
 void Bus::setPPUMemory(Pointer addr, Byte value)
 {
     cartridge->writePPU(addr, value);
+}
+
+void Bus::setPixel(int x, int y, uint8_t col, bool alpha) {
+    screen->setPixel(x, y, col, alpha);
 }

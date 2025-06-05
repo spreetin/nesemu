@@ -1,7 +1,7 @@
 #ifndef MAPPER000_H
 #define MAPPER000_H
 
-#include "cartridge/cartridge.h"
+#include "../cartridge.h"
 
 class Mapper000 : public Cartridge
 {

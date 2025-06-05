@@ -1,5 +1,5 @@
 #include "ppu.h"
-#include "hw/bus.h"
+#include "bus.h"
 
 PPU::PPU(Bus *bus)
     : bus(bus)
@@ -13,9 +13,9 @@ PPU::PPU(Bus *bus)
     PPUDATA = 0;
 }
 
-void PPU::cycle()
+void PPU::clockCycle()
 {
-
+        
 }
 
 void PPU::reset()
@@ -27,14 +27,14 @@ void PPU::reset()
     oddFrame = false;
 }
 
-Byte PPU::getReg(Byte addr)
+Byte PPU::getReg(Pointer addr)
 {
     switch (addr){
     case 0x2002:
     {
         Byte data = (PPUSTATUS.byte & 0xE0) | (buffer & 0x1F);
         PPUSTATUS.VerticalBlank = 0;
-        // Reset adress latch flag;
+        // Reset address latch flag;
         return data;
     }
     case 0x2003: return OAMADDR;
@@ -54,7 +54,7 @@ Byte PPU::getReg(Byte addr)
     return 0x0;
 }
 
-void PPU::writeReg(Byte addr, Byte data)
+void PPU::writeReg(Pointer addr, Byte data)
 {
     switch (addr){
     case 0x2000:
@@ -75,12 +75,12 @@ void PPU::writeReg(Byte addr, Byte data)
     }
 }
 
-Byte PPU::getMem(Byte addr)
+Byte PPU::getMem(Pointer addr)
 {
     return bus->getPPUMemory(addr);
 }
 
-void PPU::writeMem(Byte addr, Byte data)
+void PPU::writeMem(Pointer addr, Byte data)
 {
     bus->setPPUMemory(addr, data);
 }
